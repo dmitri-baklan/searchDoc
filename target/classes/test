@@ -1,0 +1,66 @@
+    public static final String TEST10 = "A && B";
+    public static final String TEST11 = "A || B";
+    public static final String TEST20 = "( A && B )";
+    public static final String TEST21 = "( A || B )";
+    public static final String TEST30 = "( A || B ) && C";
+    public static final String TEST31 = "( A && B ) && C";
+    public static final String TEST32 = "( A || B ) || C";
+    public static final String TEST33 = "( A && B ) || C";
+    public static final String TEST40 = "A && ( B || C )";
+    public static final String TEST41 = "A && ( B && C )";
+    public static final String TEST42 = "A || ( B && C )";
+    public static final String TEST43 = "A || ( B || C )";
+    public static final String TEST50 = "A || ( B || C ) || D";
+    public static final String TEST51 = "A && ( B && C ) && D";
+    public static final String TEST52 = "A && ( B || C ) || D";
+    public static final String TEST53 = "A || ( B && C ) || D";
+    public static final String TEST54 = "A || ( B || C ) && D";
+    public static final String TEST55 = "A && ( B && C ) || D";
+    public static final String TEST56 = "A && ( B || C ) && D";
+    public static final String TEST57 = "A || ( B && C ) && D";
+    public static final String TEST60 = "A || D || ( B || C )";
+    public static final String TEST61 = "A && D || ( B || C )";
+    public static final String TEST62 = "A || D && ( B || C )";
+    public static final String TEST63 = "A || D || ( B && C )";
+    public static final String TEST64 = "A && D && ( B || C )";
+    public static final String TEST65 = "A && D || ( B && C )";
+    public static final String TEST66 = "A || D && ( B && C )";
+    public static final String TEST67 = "A && D && ( B && C )";
+    public static final String TEST70 = "( B || C ) || A || D";
+    public static final String TEST71 = "( B && C ) || A || D";
+    public static final String TEST72 = "( B || C ) && A || D";
+    public static final String TEST73 = "( B || C ) || A && D";
+    public static final String TEST74 = "( B && C ) && A || D";
+    public static final String TEST75 = "( B && C ) || A && D";
+    public static final String TEST76 = "( B || C ) && A && D";
+    public static final String TEST77 = "( B && C ) && A && D";
+    public static final String TEST80 = "( B || C ) || ( A || D )";
+    public static final String TEST81 = "( B && C ) || ( A || D )";
+    public static final String TEST82 = "( B || C ) && ( A || D )";
+    public static final String TEST83 = "( B || C ) || ( A && D )";
+    public static final String TEST84 = "( B && C ) && ( A || D )";
+    public static final String TEST85 = "( B && C ) || ( A && D )";
+    public static final String TEST86 = "( B || C ) && ( A && D )";
+    public static final String TEST87 = "( B && C ) && ( A && D )";
+    public static final String TEST90 = "A && ( B && C ) && D";
+    public static final String TEST91 = "A || ( B && C ) && D";
+    public static final String TEST92 = "A && ( B || C ) && D";
+    public static final String TEST93 = "A && ( B && C ) || D";
+    public static final String TEST94 = "A || ( B || C ) && D";
+    public static final String TEST95 = "A || ( B && C ) || D";
+    public static final String TEST96 = "A && ( B || C ) || D";
+    public static final String TEST97 = "A || ( B || C ) || D";
+    public static final String TEST00 = "A || ( B && C ) || ( D || E )";
+    public static final String TEST01 = "( D || E ) || ( B && C ) || A";
+    public static final String TEST02 = "( B && C ) && A && ( D || E )";
+
+    //main
+            QueryValidator queryValidator = new QueryValidator();
+            Query query = null;
+            try{
+                query = queryValidator.validateQueryInput();
+            } catch (IncorrectQueryInputException | WrongBooleanOperationException e){
+                System.out.println(e);
+            }
+            System.out.println(query);
+    //
