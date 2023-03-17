@@ -2,6 +2,7 @@ package org.example.sevice.impl;
 
 import org.example.model.Document;
 import org.example.model.PredicateQuery;
+import org.example.model.Query;
 import org.example.model.Vector;
 import org.example.sevice.DocumentRepresenter;
 
@@ -12,7 +13,7 @@ public class Algebraic implements DocumentRepresenter {
     Map<Document, Vector> documentVectors;
 
     @Override
-    public Set<Document> getDocumetnsByQuery(PredicateQuery predicateQuery) {
+    public Set<Document> getDocumetnsByQuery(Query query) {
         return null;
     }
 

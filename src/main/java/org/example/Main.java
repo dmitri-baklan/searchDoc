@@ -18,16 +18,18 @@ public class Main {
     public static final String TEST08 = "A & B)";
     public static void main(String[] args) {
 
+        Console console = new Console();
+        console.runMainMenu();
 
-        //main
-        PredicateQueryValidatorParser predicateQueryValidatorParser = new PredicateQueryValidatorParser();
-        PredicateQuery predicateQuery = null;
-        try{
-            predicateQuery = predicateQueryValidatorParser.validateQueryInput(TEST07);
-        } catch (IncorrectQueryInputException | WrongBooleanOperationException e){
-            System.out.println(e);
-        }
-        System.out.println(predicateQuery);
-        //
+//        //main
+//        PredicateQueryValidatorParser predicateQueryValidatorParser = new PredicateQueryValidatorParser();
+//        PredicateQuery predicateQuery = null;
+//        try{
+//            predicateQuery = predicateQueryValidatorParser.validateQueryInput(TEST07);
+//        } catch (IncorrectQueryInputException | WrongBooleanOperationException e){
+//            System.out.println(e);
+//        }
+//        System.out.println(predicateQuery);
+//        //
     }
 }

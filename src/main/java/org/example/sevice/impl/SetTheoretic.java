@@ -1,9 +1,7 @@
 package org.example.sevice.impl;
 
-import org.example.model.BooleanOperator;
-import org.example.model.Document;
-import org.example.model.PredicateQuery;
-import org.example.model.PredicateSet;
+import org.example.exception.FolderPathException;
+import org.example.model.*;
 import org.example.sevice.DocumentRepresenter;
 
 import java.io.File;
@@ -26,9 +24,12 @@ public class SetTheoretic implements DocumentRepresenter {
     }
 
     @Override
-    public void addDocumentsFromFolder(String filesFolderPath) {
+    public void addDocumentsFromFolder(String filesFolderPath) throws FolderPathException {
         documents = new HashSet<>();
         File[] files = getFilesFromFolder(filesFolderPath);
+        if(files.length == 0){
+            throw new FolderPathException("Folder is empty!");
+        }
         for(File file : files){
             addDocument(file);
         }
@@ -40,21 +41,22 @@ public class SetTheoretic implements DocumentRepresenter {
     }
 
     @Override
-    public Set<Document> getDocumetnsByQuery(PredicateQuery predicateQuery) {
+    public Set<Document> getDocumetnsByQuery(Query query) {
+        PredicateQuery predicateQuery = (PredicateQuery) query;
         return getDocumentsProcessed(predicateQuery);
     }
 
-    private Set<Document> getDocumentsProcessed(PredicateQuery predicateQuery){
+    private Set<Document> getDocumentsProcessed(PredicateQuery predicatePredicateQuery){
         List<Set<Document>> documentSets = new ArrayList<>();
-        for(PredicateSet ps : getPredicateSetProcessed(predicateQuery)){
+        for(PredicateSet ps : getPredicateSetProcessed(predicatePredicateQuery)){
             documentSets.add(getDocumentsBooleanOperationProcessed(ps.getDocumentSets(), ps.getBooleanOperator()));
         }
-        return getDocumentsBooleanOperationProcessed(documentSets, predicateQuery.getBooleanOperator());
+        return getDocumentsBooleanOperationProcessed(documentSets, predicatePredicateQuery.getBooleanOperator());
     }
 
-    private List<PredicateSet> getPredicateSetProcessed(PredicateQuery predicateQuery){
+    private List<PredicateSet> getPredicateSetProcessed(PredicateQuery predicatePredicateQuery){
         List<PredicateSet> predicateSets = new ArrayList<>();
-        for(PredicateSet ps : predicateQuery.getPredicateSets()){
+        for(PredicateSet ps : predicatePredicateQuery.getPredicateSets()){
             predicateSets.add(matchTermsWithDocuments(ps));
         }
         return predicateSets;

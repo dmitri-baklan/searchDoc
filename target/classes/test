@@ -55,12 +55,12 @@
     public static final String TEST02 = "( B && C ) && A && ( D || E )";
 
     //main
-            QueryValidator queryValidator = new QueryValidator();
-            Query query = null;
+            QueryValidator predicateQueryValidatorParser = new QueryValidator();
+            Query predicateQuery = null;
             try{
-                query = queryValidator.validateQueryInput();
+                predicateQuery = predicateQueryValidatorParser.validateQueryInput();
             } catch (IncorrectQueryInputException | WrongBooleanOperationException e){
                 System.out.println(e);
             }
-            System.out.println(query);
+            System.out.println(predicateQuery);
     //

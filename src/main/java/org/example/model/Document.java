@@ -18,11 +18,18 @@ public class Document {
         directoryPath = file.getParent();
         fileName = file.getName();
         fr = new FileReader();
-        wordsInFile = fr.getAllWordsFromFile(directoryPath + fileName);
+        wordsInFile = FileReader.getAllWordsFromFile(directoryPath + fileName);
     }
 
     public String getFullPath(){
         return directoryPath + fileName;
+    }
+
+    @Override
+    public String toString() {
+        return "Document{" +
+                "fileName='" + fileName + '\'' +
+                '}';
     }
 
     @Override
@@ -36,11 +43,7 @@ public class Document {
     public boolean equals(Object obj) {
         if (obj instanceof Document) {
             Document other = (Document) obj;
-            if (this.directoryPath.equals(other.directoryPath) && this.fileName.equals(other.fileName)) {
-                return true;
-            } else {
-                return false;
-            }
+            return this.directoryPath.equals(other.directoryPath) && this.fileName.equals(other.fileName);
         } else {
             return false;
         }

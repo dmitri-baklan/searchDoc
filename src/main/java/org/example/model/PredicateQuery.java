@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 //@Getter
-public class PredicateQuery {
+public class PredicateQuery implements Query{
     List<PredicateSet> predicateSets;
     BooleanOperator booleanOperator;
 

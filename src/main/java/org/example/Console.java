@@ -2,10 +2,19 @@ package org.example;
 
 import org.example.exception.TooMuchOptionsException;
 import org.example.exception.UnknowInputException;
+import org.example.model.Document;
+import org.example.model.DocumentWeight;
+import org.example.model.Query;
 import org.example.sevice.DocumentRepresenter;
 import org.example.sevice.impl.SetTheoretic;
+import org.example.util.PredicateQueryValidatorParser;
 
+import javax.print.Doc;
+import java.lang.reflect.Method;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.function.Function;
 
 public class Console {
 
@@ -19,10 +28,12 @@ public class Console {
 
     public static final String MAIN_MENU_TEXT = "Choose representing mode:\n" +
             "1. Set-theoretic\n" +
-            "2. Algebraic" +
-            "3. Quit";
+            "2. Algebraic\n" +
+            "3. Quit\n";
 
     DocumentRepresenter dr;
+    PredicateQueryValidatorParser pQValidatorParser;
+    Scanner scanner = new Scanner(System.in);
 
     Console() {
     }
@@ -40,7 +51,6 @@ public class Console {
 
         while (userInputValue != OPTION_THREE) {
             System.out.println(MAIN_MENU_TEXT);
-
             userInputValue = getUserInputValue();
             if (userInputValue == OPTION_ONE) {
                 setTheoreticMenu();
@@ -54,44 +64,107 @@ public class Console {
 
     private void setTheoreticMenu() throws UnknowInputException {
         dr = new SetTheoretic();
-        addDocuments();
+        while (userInputValue != OPTION_THREE) {
+            addDocuments();
+            if(userInputValue == OPTION_TWO){
+                break;
+            }
+            querySearch();
+        }
     }
 
     private void addDocuments() throws UnknowInputException {
-        System.out.println("1. Set path to documents folder.");
+        System.out.println("1. Set path to documents folder.\n" +
+                "2. Back to main menu\n");
         userInputValue = getUserInputValue();
+        printUserInputValue();
         if (userInputValue == OPTION_ONE) {
             setPathToDocumentsFolder();
-        } else {
+        } else if(userInputValue == OPTION_TWO){
+            return;
+        }
+        else {
             throw new UnknowInputException();
         }
     }
 
-    private void manuallyAddingDocuments() {
+    private void querySearch() {
+        while (userInputValue != OPTION_TWO && userInputValue != OPTION_THREE) {
+            System.out.println("1. Enter query.\n" +
+                    "2. Back to previous step and set path to documents folder.\n" +
+                    "3. Back to main menu.\n");
+            userInputValue = getUserInputValue();
+            if (userInputValue == OPTION_ONE) {
+                Query query = getQueryFromInput();
+                Set<Document> documents = getDocuments(query);
+                displayDocuments(documents);
+            }
+        }
 
     }
 
-    private void setPathToDocumentsFolder() {
+    private void displayDocuments(Set<Document> documents) {
+        for (Document doc : documents) {
+            System.out.println(doc);
+        }
+    }
 
+
+    private void setPathToDocumentsFolder() {
+        boolean isIncorrect = true;
+        while (isIncorrect) {
+            System.out.println("Enter path to folder with documents:");
+            try {
+                dr.addDocumentsFromFolder(getUserInputString());
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                continue;
+            }
+            isIncorrect = false;
+        }
+
+    }
+
+    private Set<Document> getDocuments(Query query) {
+        Set<Document> documents = new HashSet<>();
+        try {
+            documents = dr.getDocumetnsByQuery(query);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return documents;
+    }
+
+    private Query getQueryFromInput() {
+        String userInputQuery = getUserInputString();
+        Query query = null;
+        try {
+            query = pQValidatorParser.validateQueryInput(userInputQuery);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return query;
     }
 
     private int getUserInputValue() {
-        Scanner scanner = new Scanner(System.in);
         int in = 0;
         if (scanner.hasNext()) {
             in = scanner.nextInt();
         }
-        scanner.close();
+//        scanner.close();
         return in;
     }
 
     private String getUserInputString() {
-        Scanner scanner = new Scanner(System.in);
         String in = "";
         if (scanner.hasNext()) {
             in = scanner.nextLine();
         }
-        scanner.close();
+//        scanner.close();
         return in;
+    }
+
+    private void printUserInputValue(){
+        System.out.println(userInputValue);
     }
 }

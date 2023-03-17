@@ -3,9 +3,9 @@ package org.example.model;
 import java.util.Map;
 
 public class Vector {
-    Map<String, Float> termWeights;
+    Map<String, Float> elements;
 
     public void addElement(String key, Float value){
-        termWeights.put(key, value);
+        elements.put(key, value);
     }
 }
