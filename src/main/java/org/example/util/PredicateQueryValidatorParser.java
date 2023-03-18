@@ -124,7 +124,7 @@ public class PredicateQueryValidatorParser {
         if (isLettersOnly(currentString)) {
             predicateSet = (predicateSet == null) ? new PredicateSet() : predicateSet;
             addTermToPredicateSet(leftParenthesisOpened ? parenthesisOperator : queryOperator);
-            predicateSet.addTerm(currentString);
+            predicateSet.addTerm(currentString.toLowerCase());
         }
     }
 

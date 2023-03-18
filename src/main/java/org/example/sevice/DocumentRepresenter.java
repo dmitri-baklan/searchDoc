@@ -10,7 +10,7 @@ import java.util.Set;
 public interface DocumentRepresenter {
     public Set<Document> getDocumetnsByQuery(Query query);
 
-    public void addDocumentsFromFolder(String filesFolderPath)throws FolderPathException;
+    public Set<Document> addDocumentsFromFolder(String filesFolderPath)throws FolderPathException;
 
     public void addDocumentByPath(String filePath);
 }

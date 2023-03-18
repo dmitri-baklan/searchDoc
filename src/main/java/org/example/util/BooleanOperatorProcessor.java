@@ -11,16 +11,16 @@ import java.util.stream.Collectors;
 
 public class BooleanOperatorProcessor {
 
-    public Set<Document> getBooleanOperationResult(List<Set<Document>> documentSets, BooleanOperator booleanOperator){
+    public static Set<Document> getBooleanOperationResult(List<Set<Document>> documentSets, BooleanOperator booleanOperator){
         return booleanOperator.equals(BooleanOperator.OR)
                 ? processUnionOperation(documentSets) : processIntersectionOperation(documentSets);
     }
 
-    private Set<Document> processUnionOperation(List<Set<Document>> documentSets){
+    private static Set<Document> processUnionOperation(List<Set<Document>> documentSets){
         return documentSets.stream().flatMap(Collection::stream).collect(Collectors.toSet());
     }
 
-    private Set<Document> processIntersectionOperation(List<Set<Document>> documentSets){
+    private static Set<Document> processIntersectionOperation(List<Set<Document>> documentSets){
         Set<Document> resultSet = new HashSet<>();
         for (Document doc : documentSets.get(0)) {
             if(isDocumentIntersection(doc, documentSets)){
@@ -30,9 +30,9 @@ public class BooleanOperatorProcessor {
         return resultSet;
     }
 
-    private boolean isDocumentIntersection(Document doc, List<Set<Document>> documentSets){
+    private static boolean isDocumentIntersection(Document doc, List<Set<Document>> documentSets){
         boolean isDocumentPresented = true;
-        for (int i = 1; i < documentSets.size(); i++) {
+        for (int i = 0; i < documentSets.size(); i++) {
             isDocumentPresented = checkDocumentPresentedInSet(doc, documentSets.get(i));
             if (!isDocumentPresented) {
                 break;
@@ -41,7 +41,7 @@ public class BooleanOperatorProcessor {
         return isDocumentPresented;
     }
 
-    private boolean checkDocumentPresentedInSet(Document doc, Set<Document> documents){
+    private static boolean checkDocumentPresentedInSet(Document doc, Set<Document> documents){
         for (Document compareDoc : documents) {
             if (doc.equals(compareDoc)) {
                 return true;

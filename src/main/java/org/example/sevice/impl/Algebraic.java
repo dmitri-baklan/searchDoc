@@ -6,6 +6,7 @@ import org.example.model.Query;
 import org.example.model.Vector;
 import org.example.sevice.DocumentRepresenter;
 
+import javax.print.Doc;
 import java.util.Map;
 import java.util.Set;
 
@@ -18,8 +19,8 @@ public class Algebraic implements DocumentRepresenter {
     }
 
     @Override
-    public void addDocumentsFromFolder(String filesFolderPath) {
-
+    public Set<Document> addDocumentsFromFolder(String filesFolderPath) {
+        return null;
     }
 
     @Override

@@ -16,7 +16,7 @@ public class SetTheoretic implements DocumentRepresenter {
     Set<String> terms;
     Set<Document> documents;
     FileReader fr;
-    BooleanOperatorProcessor booleanOperatorProcessor;
+//    BooleanOperatorProcessor booleanOperatorProcessor;
 
 
     public void setTermsFromDocument(String pathToTermsFile) {
@@ -24,7 +24,7 @@ public class SetTheoretic implements DocumentRepresenter {
     }
 
     @Override
-    public void addDocumentsFromFolder(String filesFolderPath) throws FolderPathException {
+    public Set<Document> addDocumentsFromFolder(String filesFolderPath) throws FolderPathException {
         documents = new HashSet<>();
         File[] files = getFilesFromFolder(filesFolderPath);
         if(files.length == 0){
@@ -33,6 +33,7 @@ public class SetTheoretic implements DocumentRepresenter {
         for(File file : files){
             addDocument(file);
         }
+        return documents;
     }
 
     @Override
@@ -63,12 +64,11 @@ public class SetTheoretic implements DocumentRepresenter {
     }
 
     private Set<Document> getDocumentsBooleanOperationProcessed(List<Set<Document>> documentSets, BooleanOperator booleanOperator){
-        return booleanOperatorProcessor.getBooleanOperationResult(
+        return BooleanOperatorProcessor.getBooleanOperationResult(
                 documentSets, booleanOperator);
     }
 
     private PredicateSet matchTermsWithDocuments(PredicateSet ps){
-
         for(String term : ps.getTerms()){
             Set<Document> docSet = getDocumentSetIncludesTerm(term);
             if(!docSet.isEmpty()){

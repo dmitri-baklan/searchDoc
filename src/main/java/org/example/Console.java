@@ -103,19 +103,13 @@ public class Console {
 
     }
 
-    private void displayDocuments(Set<Document> documents) {
-        for (Document doc : documents) {
-            System.out.println(doc);
-        }
-    }
-
-
     private void setPathToDocumentsFolder() {
         boolean isIncorrect = true;
         while (isIncorrect) {
             System.out.println("Enter path to folder with documents:");
             try {
-                dr.addDocumentsFromFolder(getUserInputString());
+                Set<Document> addedDocuments = dr.addDocumentsFromFolder(getUserInputString());
+                displayDocuments(addedDocuments);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 continue;
@@ -123,6 +117,12 @@ public class Console {
             isIncorrect = false;
         }
 
+    }
+
+    private void displayDocuments(Set<Document> documents) {
+        for (Document doc : documents) {
+            System.out.println(doc);
+        }
     }
 
     private Set<Document> getDocuments(Query query) {
@@ -138,6 +138,7 @@ public class Console {
     private Query getQueryFromInput() {
         String userInputQuery = getUserInputString();
         Query query = null;
+        pQValidatorParser = new PredicateQueryValidatorParser();
         try {
             query = pQValidatorParser.validateQueryInput(userInputQuery);
         } catch (Exception e) {
@@ -151,7 +152,7 @@ public class Console {
         if (scanner.hasNext()) {
             in = scanner.nextInt();
         }
-//        scanner.close();
+        scanner.nextLine();
         return in;
     }
 
@@ -160,7 +161,7 @@ public class Console {
         if (scanner.hasNext()) {
             in = scanner.nextLine();
         }
-//        scanner.close();
+        scanner.nextLine();
         return in;
     }
 

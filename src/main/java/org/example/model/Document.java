@@ -18,7 +18,7 @@ public class Document {
         directoryPath = file.getParent();
         fileName = file.getName();
         fr = new FileReader();
-        wordsInFile = FileReader.getAllWordsFromFile(directoryPath + fileName);
+        wordsInFile = FileReader.getAllWordsFromFile(directoryPath + "/" + fileName);
     }
 
     public String getFullPath(){

@@ -20,11 +20,24 @@ public class FileReader {
     private static List<String> writeWordsFromFileToList(String pathToFile, List<String> words) throws FileNotFoundException{
         File file = new File(pathToFile);
         Scanner scanner = new Scanner(file);
+        String word;
+        String formattedWord;
         while (scanner.hasNext()) {
-            String word = scanner.next();
-            words.add(word);
+            word = scanner.next();
+            formattedWord = formatWord(word);
+            if (!formattedWord.isEmpty()) {
+                words.add(formattedWord);
+            }
         }
         scanner.close();
         return words;
+    }
+
+    private static String formatWord(String word){
+        return replacePunctuationMarks(word).toLowerCase();
+    }
+
+    private static String replacePunctuationMarks(String word){
+        return word.replaceAll("!\".,:;?\\-\\(\\)\\<\\>\\[\\]", "");
     }
 }
