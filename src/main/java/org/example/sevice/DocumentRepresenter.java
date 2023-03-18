@@ -3,18 +3,28 @@ package org.example.sevice;
 import org.example.exception.FolderPathException;
 import org.example.model.Document;
 import org.example.model.Query;
+import org.example.util.FileReader;
 
 import java.io.File;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public abstract class DocumentRepresenter {
+    protected Set<String> terms = new HashSet<>();
     protected Set<Document> documents;
 
     public abstract Set<Document> getDocumetnsByQuery(Query query);
+
     public void addDocumentByPath(String filePath){
         addDocument(new File(filePath));
     }
+
+    public Set<String> setTermsFromDocument(String pathToTermsFile) {
+        terms = new HashSet<>(FileReader.getAllWordsFromFile(pathToTermsFile));
+        return terms;
+    }
+
     public Set<Document> addDocumentsFromFolder(String filesFolderPath)throws FolderPathException{
         documents = new HashSet<>();
         File[] files = getFilesFromFolder(filesFolderPath);

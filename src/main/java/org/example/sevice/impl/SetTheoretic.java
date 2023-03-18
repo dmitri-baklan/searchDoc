@@ -16,13 +16,6 @@ import java.util.*;
 
 public class SetTheoretic extends DocumentRepresenter {
 
-    Set<String> terms = new HashSet<>();
-    FileReader fr;
-
-    public void setTermsFromDocument(String pathToTermsFile) {
-        terms = new HashSet<>(FileReader.getAllWordsFromFile(pathToTermsFile));
-    }
-
     @Override
     public Set<Document> getDocumetnsByQuery(Query query) {
         PredicateQuery predicateQuery = (PredicateQuery) query;
