@@ -2,43 +2,25 @@ package org.example.sevice.impl;
 
 import org.example.exception.FolderPathException;
 import org.example.model.*;
+import org.example.model.booleanMode.BooleanOperator;
+import org.example.model.booleanMode.PredicateQuery;
+import org.example.model.booleanMode.PredicateSet;
 import org.example.sevice.DocumentRepresenter;
 
 import java.io.File;
 
-import org.example.util.BooleanOperatorProcessor;
+import org.example.util.booleanMode.BooleanOperatorProcessor;
 import org.example.util.FileReader;
 
 import java.util.*;
 
-public class SetTheoretic implements DocumentRepresenter {
+public class SetTheoretic extends DocumentRepresenter {
 
-    Set<String> terms;
-    Set<Document> documents;
+    Set<String> terms = new HashSet<>();
     FileReader fr;
-//    BooleanOperatorProcessor booleanOperatorProcessor;
-
 
     public void setTermsFromDocument(String pathToTermsFile) {
         terms = new HashSet<>(FileReader.getAllWordsFromFile(pathToTermsFile));
-    }
-
-    @Override
-    public Set<Document> addDocumentsFromFolder(String filesFolderPath) throws FolderPathException {
-        documents = new HashSet<>();
-        File[] files = getFilesFromFolder(filesFolderPath);
-        if(files.length == 0){
-            throw new FolderPathException("Folder is empty!");
-        }
-        for(File file : files){
-            addDocument(file);
-        }
-        return documents;
-    }
-
-    @Override
-    public void addDocumentByPath(String filePath) {
-        addDocument(new File(filePath));
     }
 
     @Override
@@ -47,42 +29,51 @@ public class SetTheoretic implements DocumentRepresenter {
         return getDocumentsProcessed(predicateQuery);
     }
 
-    private Set<Document> getDocumentsProcessed(PredicateQuery predicatePredicateQuery){
+    private Set<Document> getDocumentsProcessed(PredicateQuery predicateQuery) {
         List<Set<Document>> documentSets = new ArrayList<>();
-        for(PredicateSet ps : getPredicateSetProcessed(predicatePredicateQuery)){
+        for (PredicateSet ps : getPredicateSetProcessed(predicateQuery)) {
             documentSets.add(getDocumentsBooleanOperationProcessed(ps.getDocumentSets(), ps.getBooleanOperator()));
         }
-        return getDocumentsBooleanOperationProcessed(documentSets, predicatePredicateQuery.getBooleanOperator());
+        return getDocumentsBooleanOperationProcessed(documentSets, predicateQuery.getBooleanOperator());
     }
 
-    private List<PredicateSet> getPredicateSetProcessed(PredicateQuery predicatePredicateQuery){
+    private List<PredicateSet> getPredicateSetProcessed(PredicateQuery predicateQuery) {
         List<PredicateSet> predicateSets = new ArrayList<>();
-        for(PredicateSet ps : predicatePredicateQuery.getPredicateSets()){
+        for (PredicateSet ps : predicateQuery.getPredicateSets()) {
             predicateSets.add(matchTermsWithDocuments(ps));
         }
         return predicateSets;
     }
 
-    private Set<Document> getDocumentsBooleanOperationProcessed(List<Set<Document>> documentSets, BooleanOperator booleanOperator){
+    private Set<Document> getDocumentsBooleanOperationProcessed(List<Set<Document>> documentSets, BooleanOperator booleanOperator) {
         return BooleanOperatorProcessor.getBooleanOperationResult(
                 documentSets, booleanOperator);
     }
 
-    private PredicateSet matchTermsWithDocuments(PredicateSet ps){
-        for(String term : ps.getTerms()){
-            Set<Document> docSet = getDocumentSetIncludesTerm(term);
-            if(!docSet.isEmpty()){
+    private PredicateSet matchTermsWithDocuments(PredicateSet ps) {
+        Set<Document> docSet = new HashSet<>();
+        for (String term : ps.getTerms()) {
+            docSet.clear();
+            docSet = terms.isEmpty() ? getDocumentSetIncludesTerm(term) : addTermConsideringDefault(term);
+            if (!docSet.isEmpty()) {
                 ps.addDocumentSet(docSet);
             }
         }
         return ps;
     }
 
-    private Set<Document> getDocumentSetIncludesTerm(String term){
+    private Set<Document> addTermConsideringDefault(String term) {
+        if (terms.contains(term)) {
+            return getDocumentSetIncludesTerm(term);
+        }
+        return Collections.emptySet();
+    }
+
+    private Set<Document> getDocumentSetIncludesTerm(String term) {
         Set<Document> docSet = new HashSet<>();
-        for(Document doc : documents){
-            for(String word : doc.getWordsInFile()){
-                if(term.equals(word)){
+        for (Document doc : documents) {
+            for (String word : doc.getWordsInFile()) {
+                if (term.equals(word)) {
                     docSet.add(doc);
                     break;
                 }
@@ -91,14 +82,5 @@ public class SetTheoretic implements DocumentRepresenter {
         return docSet;
     }
 
-    private File[] getFilesFromFolder(String filesFolderPath){
-        File folder = new File(filesFolderPath);
-        return folder.listFiles();
-    }
 
-    private void addDocument(File file){
-        if (file.isFile() && file.getName().endsWith(".txt")) {
-            documents.add(new Document(file));
-        }
-    }
 }

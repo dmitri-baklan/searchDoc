@@ -2,7 +2,7 @@
 //import org.example.exception.IncorrectQueryInputException;
 //import org.example.exception.WrongBooleanOperationException;
 //import org.example.model.Query;
-//import org.example.model.BooleanOperator;
+//import org.example.model.booleanMode.BooleanOperator;
 //import org.example.util.QueryValidator;
 //import org.junit.Assert;
 //import org.junit.Before;

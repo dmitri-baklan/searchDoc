@@ -1,10 +1,5 @@
 package org.example;
 
-import org.example.exception.IncorrectQueryInputException;
-import org.example.exception.WrongBooleanOperationException;
-import org.example.model.PredicateQuery;
-import org.example.util.PredicateQueryValidatorParser;
-
 public class Main {
 
     public static final String TEST01 = "( B && C ) && A && ( D || E )";

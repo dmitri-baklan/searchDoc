@@ -9,10 +9,10 @@ import java.util.List;
 @Getter
 public class Document {
 
-    final String directoryPath;
-    final String fileName;
-    List<String> wordsInFile;
-    FileReader fr;
+    protected final String directoryPath;
+    protected final String fileName;
+    protected List<String> wordsInFile;
+    protected FileReader fr;
 
     public Document(File file) {
         directoryPath = file.getParent();

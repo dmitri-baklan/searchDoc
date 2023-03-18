@@ -3,18 +3,16 @@ package org.example;
 import org.example.exception.TooMuchOptionsException;
 import org.example.exception.UnknowInputException;
 import org.example.model.Document;
-import org.example.model.DocumentWeight;
 import org.example.model.Query;
 import org.example.sevice.DocumentRepresenter;
 import org.example.sevice.impl.SetTheoretic;
-import org.example.util.PredicateQueryValidatorParser;
+import org.example.util.booleanMode.PredicateQueryValidatorParser;
 
-import javax.print.Doc;
-import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.function.Function;
+
+import static org.example.util.MenuConstants.*;
 
 public class Console {
 
@@ -25,11 +23,6 @@ public class Console {
     public static final int OPTION_FOUR = 4;
 
     int userInputValue = DEFAULT_OPTION;
-
-    public static final String MAIN_MENU_TEXT = "Choose representing mode:\n" +
-            "1. Set-theoretic\n" +
-            "2. Algebraic\n" +
-            "3. Quit\n";
 
     DocumentRepresenter dr;
     PredicateQueryValidatorParser pQValidatorParser;
@@ -66,7 +59,7 @@ public class Console {
         dr = new SetTheoretic();
         while (userInputValue != OPTION_THREE) {
             addDocuments();
-            if(userInputValue == OPTION_TWO){
+            if (userInputValue == OPTION_TWO) {
                 break;
             }
             querySearch();
@@ -74,25 +67,20 @@ public class Console {
     }
 
     private void addDocuments() throws UnknowInputException {
-        System.out.println("1. Set path to documents folder.\n" +
-                "2. Back to main menu\n");
+        System.out.println(DOCUMENTS_PATH_MENU);
         userInputValue = getUserInputValue();
-        printUserInputValue();
         if (userInputValue == OPTION_ONE) {
             setPathToDocumentsFolder();
-        } else if(userInputValue == OPTION_TWO){
+        } else if (userInputValue == OPTION_TWO) {
             return;
-        }
-        else {
+        } else {
             throw new UnknowInputException();
         }
     }
 
     private void querySearch() {
         while (userInputValue != OPTION_TWO && userInputValue != OPTION_THREE) {
-            System.out.println("1. Enter query.\n" +
-                    "2. Back to previous step and set path to documents folder.\n" +
-                    "3. Back to main menu.\n");
+            System.out.println(QUERY_SEARCH_MENU);
             userInputValue = getUserInputValue();
             if (userInputValue == OPTION_ONE) {
                 Query query = getQueryFromInput();
@@ -106,9 +94,9 @@ public class Console {
     private void setPathToDocumentsFolder() {
         boolean isIncorrect = true;
         while (isIncorrect) {
-            System.out.println("Enter path to folder with documents:");
+            System.out.println(ENTER_DOCUMENTS_PATH);
             try {
-                Set<Document> addedDocuments = dr.addDocumentsFromFolder(getUserInputString());
+                Set<Document> addedDocuments = dr.addDocumentsFromFolder(FOLDER_PREFIX + getUserInputString());
                 displayDocuments(addedDocuments);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -120,8 +108,12 @@ public class Console {
     }
 
     private void displayDocuments(Set<Document> documents) {
-        for (Document doc : documents) {
-            System.out.println(doc);
+        if(!documents.isEmpty()){
+            for (Document doc : documents) {
+                System.out.println(doc);
+            }
+        } else {
+            System.out.println(THERE_IS_NO_DOCUMENTS);
         }
     }
 
@@ -148,24 +140,14 @@ public class Console {
     }
 
     private int getUserInputValue() {
-        int in = 0;
-        if (scanner.hasNext()) {
-            in = scanner.nextInt();
-        }
-        scanner.nextLine();
-        return in;
+        return Integer.parseInt(getUserInputString());
     }
 
     private String getUserInputString() {
-        String in = "";
-        if (scanner.hasNext()) {
-            in = scanner.nextLine();
-        }
-        scanner.nextLine();
-        return in;
+        return scanner.nextLine();
     }
 
-    private void printUserInputValue(){
+    private void printUserInputValue() {
         System.out.println(userInputValue);
     }
 }

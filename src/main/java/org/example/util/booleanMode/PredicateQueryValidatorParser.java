@@ -1,12 +1,12 @@
-package org.example.util;
+package org.example.util.booleanMode;
 
 import org.example.exception.IncorrectQueryInputException;
 import org.example.exception.WrongBooleanOperationException;
-import org.example.model.BooleanOperator;
-import org.example.model.PredicateQuery;
-import org.example.model.PredicateSet;
+import org.example.model.booleanMode.BooleanOperator;
+import org.example.model.booleanMode.PredicateQuery;
+import org.example.model.booleanMode.PredicateSet;
 
-import static org.example.util.InputConstants.*;
+import static org.example.util.InputFormatConstants.*;
 
 public class PredicateQueryValidatorParser {
     private String prevStr = "";

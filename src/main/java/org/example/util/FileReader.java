@@ -38,6 +38,6 @@ public class FileReader {
     }
 
     private static String replacePunctuationMarks(String word){
-        return word.replaceAll("!\".,:;?\\-\\(\\)\\<\\>\\[\\]", "");
+        return word.replaceAll("[!\".,:;?\\-\\(\\)\\<\\>\\[\\]]", "");
     }
 }

@@ -1,10 +1,11 @@
-package org.example.model;
+package org.example.model.booleanMode;
+
+import org.example.model.Query;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 //@Getter
-public class PredicateQuery implements Query{
+public class PredicateQuery implements Query {
     List<PredicateSet> predicateSets;
     BooleanOperator booleanOperator;
 

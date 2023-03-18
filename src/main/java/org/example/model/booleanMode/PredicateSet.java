@@ -1,9 +1,10 @@
-package org.example.model;
+package org.example.model.booleanMode;
 
 import lombok.Getter;
+import org.example.model.Document;
+import org.example.model.booleanMode.BooleanOperator;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Getter
 public class PredicateSet {

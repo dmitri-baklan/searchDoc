@@ -1,13 +1,14 @@
-package org.example.model;
+package org.example.model.vektorMode;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.example.model.Document;
 
 import java.io.File;
 
 @Getter
 @Setter
-public class DocumentWeight extends Document{
+public class DocumentWeight extends Document {
     private float weight;
     public DocumentWeight(File file) {
         super(file);

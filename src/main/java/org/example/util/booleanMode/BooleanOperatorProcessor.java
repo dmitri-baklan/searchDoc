@@ -1,6 +1,6 @@
-package org.example.util;
+package org.example.util.booleanMode;
 
-import org.example.model.BooleanOperator;
+import org.example.model.booleanMode.BooleanOperator;
 import org.example.model.Document;
 
 import java.util.Collection;
