@@ -12,14 +12,19 @@ public class Document {
     protected final String directoryPath;
     protected final String fileName;
     protected List<String> wordsInFile;
-    protected FileReader fr;
 
     public Document(File file) {
         directoryPath = file.getParent();
         fileName = file.getName();
-        fr = new FileReader();
         wordsInFile = FileReader.getAllWordsFromFile(directoryPath + "/" + fileName);
     }
+
+    public Document(Document document) {
+        this.directoryPath = document.directoryPath;
+        this.fileName = document.fileName;
+        this.wordsInFile = document.wordsInFile;
+    }
+
 
     public String getFullPath(){
         return directoryPath + fileName;

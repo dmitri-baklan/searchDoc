@@ -9,9 +9,13 @@ import java.io.File;
 @Getter
 @Setter
 public class DocumentWeight extends Document {
-    private float weight;
+    private Double weight;
     public DocumentWeight(File file) {
         super(file);
+    }
+    public DocumentWeight(Document document, Double weight) {
+        super(document);
+        this.weight = weight;
     }
 
     @Override

@@ -12,5 +12,8 @@ public interface MenuConstants {
             "2. Back to previous step and set path to documents folder.\n" +
             "3. Back to main menu.\n";
     String ENTER_DOCUMENTS_PATH = "Enter path to folder with documents:";
+    String ENTER_TERMS_PATH = "Enter path to file with default terms:";
     String THERE_IS_NO_DOCUMENTS = "There is no documents that matches the query";
+    String ENTER_DEFAULT_TERMS = "1. Enter path to file with default terms.\n" +
+            "2. Skip adding default terms stage";
 }

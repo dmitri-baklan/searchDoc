@@ -30,11 +30,7 @@ public class PredicateSet {
     }
 
     public void setBooleanOperator(BooleanOperator booleanOperator) {
-//        if(this.booleanOperator != null && this.booleanOperator != booleanOperator){
-//            throw new WrongBooleanOperationException();
-//        } else {
         this.booleanOperator = booleanOperator;
-//        }
     }
 
     @Override

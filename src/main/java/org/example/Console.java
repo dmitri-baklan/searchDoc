@@ -58,11 +58,31 @@ public class Console {
     private void setTheoreticMenu() throws UnknowInputException {
         dr = new SetTheoretic();
         while (userInputValue != OPTION_THREE) {
+            System.out.println(ENTER_DEFAULT_TERMS);
+            userInputValue = getUserInputValue();
+            if(userInputValue == OPTION_ONE){
+                addDefaultTerms();
+            }
             addDocuments();
             if (userInputValue == OPTION_TWO) {
                 break;
             }
             querySearch();
+        }
+    }
+
+    private void addDefaultTerms(){
+        boolean isIncorrectPath = true;
+        while (isIncorrectPath) {
+            System.out.println(ENTER_TERMS_PATH);
+            try {
+                Set<String> addedDocuments = dr.setTermsFromDocument(FOLDER_PREFIX + getUserInputString());
+                addedDocuments.forEach(System.out::println);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                continue;
+            }
+            isIncorrectPath = false;
         }
     }
 

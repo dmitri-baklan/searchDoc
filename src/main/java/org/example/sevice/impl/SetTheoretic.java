@@ -46,7 +46,6 @@ public class SetTheoretic extends DocumentRepresenter {
     private PredicateSet matchTermsWithDocuments(PredicateSet ps) {
         Set<Document> docSet = new HashSet<>();
         for (String term : ps.getTerms()) {
-            docSet.clear();
             docSet = terms.isEmpty() ? getDocumentSetIncludesTerm(term) : addTermConsideringDefault(term);
             if (!docSet.isEmpty()) {
                 ps.addDocumentSet(docSet);

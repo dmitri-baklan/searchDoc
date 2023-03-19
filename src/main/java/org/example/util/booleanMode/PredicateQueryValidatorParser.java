@@ -1,14 +1,14 @@
 package org.example.util.booleanMode;
 
 import org.example.exception.IncorrectQueryInputException;
-import org.example.exception.WrongBooleanOperationException;
 import org.example.model.booleanMode.BooleanOperator;
 import org.example.model.booleanMode.PredicateQuery;
 import org.example.model.booleanMode.PredicateSet;
+import org.example.util.ValidatorParser;
 
 import static org.example.util.InputFormatConstants.*;
 
-public class PredicateQueryValidatorParser {
+public class PredicateQueryValidatorParser implements ValidatorParser {
     private String prevStr = "";
     private String currentString = "";
     private String nextStr = "";
@@ -20,7 +20,7 @@ public class PredicateQueryValidatorParser {
     PredicateQuery predicateQuery = new PredicateQuery();
     String[] splittedString;
 
-    public PredicateQuery validateQueryInput(String predicateInput) throws IncorrectQueryInputException, WrongBooleanOperationException {
+    public PredicateQuery validateQueryInput(String predicateInput) throws IncorrectQueryInputException {
         if (!predicateInput.matches(QUERY_REGEX)) {
             throw new IncorrectQueryInputException("Unknown symbols, only letters and next characters is allowed: '(', ')', '&', '|'.");
         }
@@ -28,8 +28,7 @@ public class PredicateQueryValidatorParser {
         return validateParenthesisAndBooleanOperators(splittedString);
     }
 
-    private PredicateQuery validateParenthesisAndBooleanOperators(String[] splittedString) throws IncorrectQueryInputException,
-            WrongBooleanOperationException {
+    private PredicateQuery validateParenthesisAndBooleanOperators(String[] splittedString) throws IncorrectQueryInputException{
 
 
         for (int i = 0; i < splittedString.length; i++) {
@@ -120,7 +119,7 @@ public class PredicateQueryValidatorParser {
         }
     }
 
-    private void checkTermCase() throws WrongBooleanOperationException {
+    private void checkTermCase() {
         if (isLettersOnly(currentString)) {
             predicateSet = (predicateSet == null) ? new PredicateSet() : predicateSet;
             addTermToPredicateSet(leftParenthesisOpened ? parenthesisOperator : queryOperator);
@@ -128,7 +127,7 @@ public class PredicateQueryValidatorParser {
         }
     }
 
-    private void addTermToPredicateSet(BooleanOperator booleanOperator) throws WrongBooleanOperationException {
+    private void addTermToPredicateSet(BooleanOperator booleanOperator) {
         predicateSet.setBooleanOperator(booleanOperator == null ? chooseBooleanOperator() : booleanOperator);
     }
 
