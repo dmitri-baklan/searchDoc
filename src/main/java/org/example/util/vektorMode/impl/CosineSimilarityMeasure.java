@@ -19,7 +19,7 @@ public class CosineSimilarityMeasure implements SimilarityMeasure {
     private double getCosineAngleVectors(Map<String, Double> queryEl, Map<String, Double> documentEl){
         double scalarProduct = getScalarProduct(queryEl, documentEl);
         double queryMagnitude = getVectorMagnitude(queryEl);
-        double documentMagnitude = getVectorMagnitude(queryEl);
+        double documentMagnitude = getVectorMagnitude(documentEl);
         return scalarProduct / (queryMagnitude * documentMagnitude);
     }
 
