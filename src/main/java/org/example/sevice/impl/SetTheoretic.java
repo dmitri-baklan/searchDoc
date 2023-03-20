@@ -17,9 +17,9 @@ import java.util.*;
 public class SetTheoretic extends DocumentRepresenter {
 
     @Override
-    public Set<Document> getDocumetnsByQuery(Query query) {
+    public List<Document> getDocumetnsByQuery(Query query) {
         PredicateQuery predicateQuery = (PredicateQuery) query;
-        return getDocumentsProcessed(predicateQuery);
+        return new ArrayList<>(getDocumentsProcessed(predicateQuery));
     }
 
     private Set<Document> getDocumentsProcessed(PredicateQuery predicateQuery) {

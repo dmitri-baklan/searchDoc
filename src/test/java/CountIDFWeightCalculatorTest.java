@@ -25,7 +25,6 @@ import static org.mockito.Mockito.when;
 
 public class CountIDFWeightCalculatorTest {
     private final Set<Document> testDocumentSet = new HashSet<>();
-//    private final List<String> testWords = Arrays.asList("apple", "banana", "cherry", "plane");
     private final Set<String> testTerms = new HashSet<>(Arrays.asList("apple", "banana", "cherry", "durian", "elderberry"));
     private final WordQuery testQuery = new WordQuery(List.of("apple", "banana", "cherry", "car", "apple"));
     private final CountIDFWeightCalculator testCalculator = new CountIDFWeightCalculator(testDocumentSet);

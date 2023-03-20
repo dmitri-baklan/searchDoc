@@ -8,9 +8,7 @@ import org.example.sevice.DocumentRepresenter;
 import org.example.sevice.impl.SetTheoretic;
 import org.example.util.booleanMode.PredicateQueryValidatorParser;
 
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 import static org.example.util.MenuConstants.*;
 
@@ -104,7 +102,7 @@ public class Console {
             userInputValue = getUserInputValue();
             if (userInputValue == OPTION_ONE) {
                 Query query = getQueryFromInput();
-                Set<Document> documents = getDocuments(query);
+                List<Document> documents = getDocuments(query);
                 displayDocuments(documents);
             }
         }
@@ -116,7 +114,7 @@ public class Console {
         while (isIncorrect) {
             System.out.println(ENTER_DOCUMENTS_PATH);
             try {
-                Set<Document> addedDocuments = dr.addDocumentsFromFolder(FOLDER_PREFIX + getUserInputString());
+                List<Document> addedDocuments = dr.addDocumentsFromFolder(FOLDER_PREFIX + getUserInputString());
                 displayDocuments(addedDocuments);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -127,7 +125,7 @@ public class Console {
 
     }
 
-    private void displayDocuments(Set<Document> documents) {
+    private void displayDocuments(List<Document> documents) {
         if(!documents.isEmpty()){
             for (Document doc : documents) {
                 System.out.println(doc);
@@ -137,8 +135,8 @@ public class Console {
         }
     }
 
-    private Set<Document> getDocuments(Query query) {
-        Set<Document> documents = new HashSet<>();
+    private List<Document> getDocuments(Query query) {
+        List<Document> documents = new ArrayList<>();
         try {
             documents = dr.getDocumetnsByQuery(query);
         } catch (Exception e) {

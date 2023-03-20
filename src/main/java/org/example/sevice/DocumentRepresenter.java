@@ -6,6 +6,7 @@ import org.example.model.Query;
 import org.example.util.FileReader;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,7 +15,7 @@ public abstract class DocumentRepresenter {
     protected Set<String> terms = new HashSet<>();
     protected Set<Document> documents;
 
-    public abstract Set<Document> getDocumetnsByQuery(Query query);
+    public abstract List<Document> getDocumetnsByQuery(Query query);
 
     public void addDocumentByPath(String filePath){
         addDocument(new File(filePath));
@@ -25,7 +26,7 @@ public abstract class DocumentRepresenter {
         return terms;
     }
 
-    public Set<Document> addDocumentsFromFolder(String filesFolderPath)throws FolderPathException{
+    public List<Document> addDocumentsFromFolder(String filesFolderPath)throws FolderPathException{
         documents = new HashSet<>();
         File[] files = getFilesFromFolder(filesFolderPath);
         if(files.length == 0){
@@ -34,7 +35,7 @@ public abstract class DocumentRepresenter {
         for(File file : files){
             addDocument(file);
         }
-        return documents;
+        return new ArrayList<>(documents);
     }
 
     private File[] getFilesFromFolder(String filesFolderPath){
