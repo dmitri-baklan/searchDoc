@@ -6,5 +6,5 @@ import org.example.model.Query;
 import org.example.model.booleanMode.PredicateQuery;
 
 public interface ValidatorParser {
-    Query validateQueryInput(String predicateInput) throws IncorrectQueryInputException;
+    Query validateQueryInput(String userInput) throws IncorrectQueryInputException;
 }
