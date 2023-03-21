@@ -12,7 +12,6 @@ public class Document {
     protected final String directoryPath;
     protected final String fileName;
     protected List<String> wordsInFile;
-    protected FileReader fr = new FileReader();
 
     public Document(File file) {
         directoryPath = file.getParent();

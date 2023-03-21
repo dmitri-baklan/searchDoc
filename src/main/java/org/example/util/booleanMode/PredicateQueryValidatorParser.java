@@ -28,8 +28,16 @@ public class PredicateQueryValidatorParser implements ValidatorParser {
         return validateParenthesisAndBooleanOperators(splittedString);
     }
 
-    private PredicateQuery validateParenthesisAndBooleanOperators(String[] splittedString) throws IncorrectQueryInputException{
-
+    private PredicateQuery validateParenthesisAndBooleanOperators(String[] splittedString) throws IncorrectQueryInputException {
+        prevStr = "";
+        currentString = "";
+        nextStr = "";
+        leftParenthesisOpened = false;
+        currentOperator = null;
+        queryOperator = null;
+        parenthesisOperator = null;
+        predicateSet = null;
+        predicateQuery = new PredicateQuery();
 
         for (int i = 0; i < splittedString.length; i++) {
             setDefaultsStringIteration(i);
@@ -44,10 +52,10 @@ public class PredicateQueryValidatorParser implements ValidatorParser {
         return predicateQuery;
     }
 
-    private void checkIncorrectSymbol()throws IncorrectQueryInputException {
-        if(!currentString.equals(AMPERSAND) && !currentString.equals(VERTICAL_BAR)
+    private void checkIncorrectSymbol() throws IncorrectQueryInputException {
+        if (!currentString.equals(AMPERSAND) && !currentString.equals(VERTICAL_BAR)
                 && !currentString.isEmpty() && !currentString.equals(LEFT_PARENTHESIS)
-                && !currentString.equals(RIGHT_PARENTHESIS) && !isLettersOnly(currentString)){
+                && !currentString.equals(RIGHT_PARENTHESIS) && !isLettersOnly(currentString)) {
             throw new IncorrectQueryInputException("Unknown symbol exception!");
         }
     }
@@ -62,8 +70,8 @@ public class PredicateQueryValidatorParser implements ValidatorParser {
         }
     }
 
-    private void setQueryDataAfterIterations()throws IncorrectQueryInputException {
-        if(leftParenthesisOpened){
+    private void setQueryDataAfterIterations() throws IncorrectQueryInputException {
+        if (leftParenthesisOpened) {
             throw new IncorrectQueryInputException("Parenthesis wasn't closed!");
         }
         if (!predicateSet.isEmpty()) {
