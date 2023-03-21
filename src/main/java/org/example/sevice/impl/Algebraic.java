@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
 
 public class Algebraic extends DocumentRepresenter {
     Map<Document, Vector> documentVectors;
-    //    Vector queryVector;
     WeightCalculator weightCalculator;
     SimilarityMeasure similarityMeasure;
+    private static final double BOUNDARY_VALUE = 0;
 
 
     @Override
@@ -30,7 +30,7 @@ public class Algebraic extends DocumentRepresenter {
         Vector queryVector = weightCalculator.getQueryVectorForTerms(terms, query);
         List<DocumentWeight> weightedDocuments = getWeightedDocuments(queryVector);
 
-        return sortDocumentsByWeight(weightedDocuments);
+        return sortDocumentsByWeight(filterDocumentsByWeight(weightedDocuments));
     }
 
     private List<DocumentWeight> getWeightedDocuments(Vector queryVector) {
@@ -46,15 +46,21 @@ public class Algebraic extends DocumentRepresenter {
 
     private List<Document> sortDocumentsByWeight(List<DocumentWeight> weightedDocuments) {
         return weightedDocuments.stream()
-                .sorted(Comparator.comparingDouble(DocumentWeight::getWeight))
+                .sorted(Comparator.comparingDouble(DocumentWeight::getWeight).reversed())
+                .collect(Collectors.toList());
+    }
+
+    private List<DocumentWeight> filterDocumentsByWeight(List<DocumentWeight> weightedDocuments) {
+        return weightedDocuments.stream()
+                .filter(d -> d.getWeight() > BOUNDARY_VALUE)
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<Document> addDocumentsFromFolder(String filesFolderPath) throws FolderPathException {
         documents = new HashSet<>(super.addDocumentsFromFolder(filesFolderPath));
-        setTermsFromDocuments(documents);
         initVariables();
+        setTermsFromDocuments(documents);
         setVectorForEachDocument();
 
         return new ArrayList<>(documents);
@@ -74,6 +80,7 @@ public class Algebraic extends DocumentRepresenter {
     }
 
     private void initVariables() {
+        terms = new HashSet<>();
         weightCalculator = new CountIDFWeightCalculator(documents);
         documentVectors = new HashMap<>();
         similarityMeasure = new CosineSimilarityMeasure();

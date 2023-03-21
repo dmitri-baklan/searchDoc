@@ -4,9 +4,13 @@ import org.example.exception.TooMuchOptionsException;
 import org.example.exception.UnknowInputException;
 import org.example.model.Document;
 import org.example.model.Query;
+import org.example.model.vektorMode.DocumentWeight;
 import org.example.sevice.DocumentRepresenter;
+import org.example.sevice.impl.Algebraic;
 import org.example.sevice.impl.SetTheoretic;
+import org.example.util.ValidatorParser;
 import org.example.util.booleanMode.PredicateQueryValidatorParser;
+import org.example.util.vektorMode.impl.WordQueryValidatorParser;
 
 import java.util.*;
 
@@ -14,16 +18,10 @@ import static org.example.util.MenuConstants.*;
 
 public class Console {
 
-    public static final int DEFAULT_OPTION = 0;
-    public static final int OPTION_ONE = 1;
-    public static final int OPTION_TWO = 2;
-    public static final int OPTION_THREE = 3;
-    public static final int OPTION_FOUR = 4;
-
     int userInputValue = DEFAULT_OPTION;
 
     DocumentRepresenter dr;
-    PredicateQueryValidatorParser pQValidatorParser;
+    ValidatorParser validatorParser;
     Scanner scanner = new Scanner(System.in);
 
     Console() {
@@ -46,15 +44,28 @@ public class Console {
             if (userInputValue == OPTION_ONE) {
                 setTheoreticMenu();
             } else if (userInputValue == OPTION_TWO) {
-
+                setAlgebraicMenu();
             } else {
                 throw new UnknowInputException();
             }
         }
     }
 
+    private void setAlgebraicMenu() throws UnknowInputException {
+        dr = new Algebraic();
+        validatorParser = new WordQueryValidatorParser();
+        while (userInputValue != OPTION_THREE) {
+            addDocuments();
+            if (userInputValue == OPTION_TWO) {
+                break;
+            }
+            querySearch();
+        }
+    }
+
     private void setTheoreticMenu() throws UnknowInputException {
         dr = new SetTheoretic();
+        validatorParser = new PredicateQueryValidatorParser();
         while (userInputValue != OPTION_THREE) {
             System.out.println(ENTER_DEFAULT_TERMS);
             userInputValue = getUserInputValue();
@@ -101,6 +112,7 @@ public class Console {
             System.out.println(QUERY_SEARCH_MENU);
             userInputValue = getUserInputValue();
             if (userInputValue == OPTION_ONE) {
+                printQueryTemplate();
                 Query query = getQueryFromInput();
                 List<Document> documents = getDocuments(query);
                 displayDocuments(documents);
@@ -128,6 +140,11 @@ public class Console {
     private void displayDocuments(List<Document> documents) {
         if(!documents.isEmpty()){
             for (Document doc : documents) {
+                if(doc instanceof DocumentWeight){
+                    DocumentWeight dw = (DocumentWeight) doc;
+                    System.out.println(dw);
+                    continue;
+                }
                 System.out.println(doc);
             }
         } else {
@@ -148,9 +165,8 @@ public class Console {
     private Query getQueryFromInput() {
         String userInputQuery = getUserInputString();
         Query query = null;
-        pQValidatorParser = new PredicateQueryValidatorParser();
         try {
-            query = pQValidatorParser.validateQueryInput(userInputQuery);
+            query = validatorParser.validateQueryInput(userInputQuery);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -163,6 +179,10 @@ public class Console {
 
     private String getUserInputString() {
         return scanner.nextLine();
+    }
+
+    private void printQueryTemplate(){
+        System.out.println(dr instanceof SetTheoretic ? BOOLEAN_QUERY_TEMPLATE : WORD_QUERY_TEMPLATE);
     }
 
     private void printUserInputValue() {

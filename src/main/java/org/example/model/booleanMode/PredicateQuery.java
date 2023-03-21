@@ -4,7 +4,6 @@ import org.example.model.Query;
 
 import java.util.*;
 
-//@Getter
 public class PredicateQuery implements Query {
     List<PredicateSet> predicateSets;
     BooleanOperator booleanOperator;

@@ -6,7 +6,8 @@ public interface InputFormatConstants {
     String AMPERSAND = "&&";
     String VERTICAL_BAR = "||";
     String LETTERS_REGEX = "[\\p{L}]+";
-    String QUERY_REGEX = "[\\p{L}|&()\\s]+";
+    String BOOLEAN_QUERY_REGEX = "[\\p{L}|&()\\s]+";
+    String WORDS_QUERY_REGEX = "[\\p{L}\\s]+";
 
     static boolean isLettersOnly(String str) {
         return str.matches(LETTERS_REGEX);

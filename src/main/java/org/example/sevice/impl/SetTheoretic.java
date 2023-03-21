@@ -1,16 +1,12 @@
 package org.example.sevice.impl;
 
-import org.example.exception.FolderPathException;
 import org.example.model.*;
 import org.example.model.booleanMode.BooleanOperator;
 import org.example.model.booleanMode.PredicateQuery;
 import org.example.model.booleanMode.PredicateSet;
 import org.example.sevice.DocumentRepresenter;
 
-import java.io.File;
-
 import org.example.util.booleanMode.BooleanOperatorProcessor;
-import org.example.util.FileReader;
 
 import java.util.*;
 

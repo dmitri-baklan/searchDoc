@@ -6,16 +6,15 @@ import org.example.model.vektorMode.WordQuery;
 import org.example.util.ValidatorParser;
 
 import java.util.List;
-
-import static org.example.util.InputFormatConstants.LETTERS_REGEX;
+import static org.example.util.InputFormatConstants.WORDS_QUERY_REGEX;
 
 public class WordQueryValidatorParser implements ValidatorParser {
     @Override
     public Query validateQueryInput(String userInput) throws IncorrectQueryInputException {
-        if (!userInput.matches(LETTERS_REGEX)) {
+        if (!userInput.matches(WORDS_QUERY_REGEX)) {
             throw new IncorrectQueryInputException("User input should contain only letters and spaces!");
         }
-        String[] splittedString = userInput.split("\\s+");
+        String[] splittedString = userInput.toLowerCase().split("\\s+");
         return convertInputToQuery(splittedString);
     }
 

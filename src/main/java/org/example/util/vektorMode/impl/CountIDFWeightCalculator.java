@@ -16,16 +16,6 @@ public class CountIDFWeightCalculator implements WeightCalculator {
     }
 
     @Override
-    public Double countTermWeightInDocument(String term, Document document) {
-        return null;
-    }
-
-    @Override
-    public Double countTermWeightInQuery(String term, Query query) {
-        return null;
-    }
-
-    @Override
     public org.example.model.vektorMode.Vector getDocumentVectorForTerms(Set<String> terms, Document document) {
         return new org.example.model.vektorMode.Vector(getTfIdfValues(terms, document.getWordsInFile()));
     }
@@ -58,10 +48,5 @@ public class CountIDFWeightCalculator implements WeightCalculator {
 
     private boolean isDocumentContainTerm(String term, Document document){
         return document.getWordsInFile().stream().anyMatch(w -> w.equals(term));
-    }
-
-    @Override
-    public void setDocumentSet(Set<Document> documentSet) {
-        this.documentSet = documentSet;
     }
 }

@@ -2,7 +2,6 @@ package org.example.model.booleanMode;
 
 import lombok.Getter;
 import org.example.model.Document;
-import org.example.model.booleanMode.BooleanOperator;
 
 import java.util.*;
 
@@ -13,12 +12,9 @@ public class PredicateSet {
 
     List<Set<Document>> documentSets;
 
-//    Set<Document> processedDocuments;
-
     public PredicateSet() {
         this.terms = new ArrayList<String>();
         this.documentSets = new ArrayList<Set<Document>>();
-//        this.processedDocuments = new HashSet<>();
     }
 
     public void addTerm(String newTerm) {

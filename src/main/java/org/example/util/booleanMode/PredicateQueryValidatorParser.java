@@ -21,7 +21,7 @@ public class PredicateQueryValidatorParser implements ValidatorParser {
     String[] splittedString;
 
     public PredicateQuery validateQueryInput(String predicateInput) throws IncorrectQueryInputException {
-        if (!predicateInput.matches(QUERY_REGEX)) {
+        if (!predicateInput.matches(BOOLEAN_QUERY_REGEX)) {
             throw new IncorrectQueryInputException("Unknown symbols, only letters and next characters is allowed: '(', ')', '&', '|'.");
         }
         splittedString = predicateInput.split("\\s+");
